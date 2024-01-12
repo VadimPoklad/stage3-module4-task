@@ -1,6 +1,4 @@
-# M2.5 Architecture advanced
-
-### Task
+# Architecture advanced
 
 #### Recommended Timeline
 
@@ -77,7 +75,10 @@ For example: [Mapstruct](https://mapstruct.org/), [Modelmapper](http://modelmapp
 
 ## Solution:
 
-The finished sample application can be found in the [__solution__](./news-management/solution/news-management.jar) package at the root of the project, which can be run with the following command:
+The finished sample application can be found in the [__solution__](./solution/news-management.jar) package at the root of the project, which can be run with the following command:
 ``` java
    java -jar news-management.jar
 ```
+
+## Our solution review:
+If you have finished task and would like to see the original solution of it written by our experts, write in #stage-3 channel about it. Access will be provided.

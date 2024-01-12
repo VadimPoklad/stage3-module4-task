@@ -1,35 +1,55 @@
 plugins {
-    id 'java-base'
-    id 'com.github.johnrengelman.shadow'
+    id 'java'
+    id 'org.springframework.boot' version "$springVersion"
+    id 'io.spring.dependency-management' version "$springDependencyManagementVersion"
 }
 
 wrapper {
     gradleVersion = gradlewVersion
 }
 
+java {
+    sourceCompatibility = "$javaVersion"
+    targetCompatibility = "$javaVersion"
+}
+
+repositories {
+    mavenCentral()
+}
+
+
 subprojects {
     apply plugin: 'java'
-    apply plugin: 'com.github.johnrengelman.shadow'
-
-    group = 'com.mjc.school'
-    sourceCompatibility = javaVersion
-    targetCompatibility = javaVersion
+    apply plugin: 'jacoco'
+    group = "com.mjc.school"
+    sourceCompatibility = "$javaVersion"
+    targetCompatibility =  "$javaVersion"
 
     repositories {
         mavenCentral()
     }
-}
 
-task repack(type: Jar, dependsOn: ':module-main:build') {
-    if (findProject(':module-main') != null) {
-        entryCompression = ZipEntryCompression.STORED
-        def buildJar = zipTree("${project(':module-main').buildDir}/libs/module-main-all.jar")
-        from(buildJar) { into('/') }
-        manifest {
-            attributes(
-                    'Main-Class': 'com.mjc.school.Main'
-            )
-        }
+    dependencies {
+
+        implementation "org.springframework.boot:spring-boot-starter-data-jpa:$springVersion"
+        implementation "org.springframework.boot:spring-boot-starter-hateoas:$springVersion"
+        implementation "org.springframework.boot:spring-boot-starter-web:$springVersion"
+        implementation "org.springframework.boot:spring-boot-starter-validation:$springVersion"
+
+        testImplementation "org.springframework.boot:spring-boot-starter-test:$springVersion"
+        testImplementation "com.tngtech.archunit:archunit-junit5:$archUnitVersion"
+
+        implementation 'javax.xml.bind:jaxb-api:2.3.1'
+        implementation "org.projectlombok:lombok:$lombok"
+        compileOnly "org.projectlombok:lombok:$lombok"
+        annotationProcessor "org.projectlombok:lombok:$lombok"
+        implementation "mysql:mysql-connector-java:8.0.33"
+        implementation "org.mapstruct:mapstruct:$mapstructVersion"
+        annotationProcessor "org.mapstruct:mapstruct-processor:$mapstructVersion"
+
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
-
